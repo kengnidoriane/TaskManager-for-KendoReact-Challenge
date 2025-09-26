@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { isToday, endOfDay } from 'date-fns';
-import { Task, FilterType } from '../types';
+import type { Task, FilterType } from '../types';
 
 export const useTaskFilters = (tasks: Task[], currentFilter: FilterType | string) => {
   const filteredTasks = useMemo(() => {

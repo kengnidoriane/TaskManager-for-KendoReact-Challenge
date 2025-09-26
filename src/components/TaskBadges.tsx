@@ -1,55 +1,56 @@
 import React from 'react';
-import { AlertTriangle, Clock, CheckCircle, Circle, Play, Check } from 'lucide-react';
-
-type Priority = 'High' | 'Medium' | 'Low';
-type Status = 'Todo' | 'InProgress' | 'Done';
 
 interface PriorityBadgeProps {
-  priority: Priority;
+  priority: 'High' | 'Medium' | 'Low';
+}
+
+interface StatusBadgeProps {
+  status: 'Todo' | 'InProgress' | 'Done';
 }
 
 export const PriorityBadge: React.FC<PriorityBadgeProps> = ({ priority }) => {
-  const getIcon = () => {
-    switch (priority) {
-      case 'High': return <AlertTriangle size={12} />;
-      case 'Medium': return <Clock size={12} />;
-      case 'Low': return <CheckCircle size={12} />;
-    }
+  const colors = {
+    High: '#d1453b',
+    Medium: '#eb8909',
+    Low: '#246fe0'
   };
 
   return (
-    <span className={`priority-badge priority-${priority.toLowerCase()}`}>
-      {getIcon()}
+    <span style={{
+      padding: '0.25rem 0.5rem',
+      borderRadius: '4px',
+      fontSize: '0.75rem',
+      fontWeight: '500',
+      backgroundColor: `${colors[priority]}20`,
+      color: colors[priority]
+    }}>
       {priority}
     </span>
   );
 };
 
-interface StatusBadgeProps {
-  status: Status;
-}
-
 export const StatusBadge: React.FC<StatusBadgeProps> = ({ status }) => {
-  const getIcon = () => {
-    switch (status) {
-      case 'Todo': return <Circle size={12} />;
-      case 'InProgress': return <Play size={12} />;
-      case 'Done': return <Check size={12} />;
-    }
+  const config = {
+    Todo: { color: '#666', label: 'To Do', icon: '📝' },
+    InProgress: { color: '#eb8909', label: 'In Progress', icon: '⚡' },
+    Done: { color: '#22c55e', label: 'Done', icon: '✅' }
   };
 
-  const getLabel = () => {
-    switch (status) {
-      case 'Todo': return 'À faire';
-      case 'InProgress': return 'En cours';
-      case 'Done': return 'Terminé';
-    }
-  };
+  const { color, label, icon } = config[status];
 
   return (
-    <span className={`status-badge status-${status.toLowerCase()}`}>
-      {getIcon()}
-      {getLabel()}
+    <span style={{
+      padding: '0.25rem 0.5rem',
+      borderRadius: '4px',
+      fontSize: '0.75rem',
+      fontWeight: '500',
+      backgroundColor: `${color}20`,
+      color: color,
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.25rem'
+    }}>
+      {icon} {label}
     </span>
   );
 };

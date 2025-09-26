@@ -88,12 +88,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({
     <Dialog 
       title={initialData ? "Edit Task" : "Create New Task"} 
       onClose={handleClose}
-      visible={true}
       width={520}
-      style={{
-        borderRadius: '12px',
-        boxShadow: '0 10px 40px rgba(0,0,0,0.15)'
-      }}
     >
       <div style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
         <div>
@@ -218,13 +213,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({
         </div>
       </div>
 
-      <DialogActionsBar style={{ 
-        padding: '1rem 1.5rem',
-        borderTop: '1px solid var(--border-color)',
-        display: 'flex',
-        justifyContent: 'flex-end',
-        gap: '0.75rem'
-      }}>
+      <DialogActionsBar>
         <Button 
           onClick={handleClose}
           fillMode="outline"
