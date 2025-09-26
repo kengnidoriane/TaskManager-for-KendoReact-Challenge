@@ -1,0 +1,675 @@
+@import '@progress/kendo-theme-default/dist/all.css';
+
+:root {
+  --primary-color: #0078d4;
+  --success-color: #107c10;
+  --warning-color: #ff8c00;
+  --danger-color: #d13438;
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --text-primary: #323130;
+  --text-secondary: #605e5c;
+  --border-color: #edebe9;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --border-radius: 8px;
+}
+
+[data-theme="dark"] {
+  --primary-color: #4fc3f7;
+  --success-color: #4caf50;
+  --warning-color: #ff9800;
+  --danger-color: #f44336;
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #2d2d2d;
+  --text-primary: #ffffff;
+  --text-secondary: #b3b3b3;
+  --border-color: #404040;
+  --shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden; /* CRITIQUE: Empêche le scroll global */
+}
+
+#root {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Smooth animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideIn {
+  from { 
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+/* Smooth transitions for all interactive elements */
+*, *::before, *::after {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  height: 100%;
+  overflow: hidden; /* CRITIQUE: Pas de scroll sur le body */
+}
+
+.app-container {
+  height: 100vh; /* Hauteur fixe au lieu de min-height */
+  display: flex;
+  flex-direction: column;
+  background-color: var(--bg-secondary);
+  overflow: hidden; /* Pas de scroll sur le container principal */
+}
+
+.header {
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border-color);
+  padding: 1rem 2rem;
+  box-shadow: var(--shadow);
+}
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.progress-section {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  gap: 0;
+  padding: 0;
+  height: calc(100vh - 60px);
+  overflow: hidden; /* Empêche le scroll global */
+}
+
+.sidebar {
+  width: 280px;
+  background: var(--bg-primary);
+  border-right: 1px solid var(--border-color);
+  padding: 1.5rem;
+  height: 100%;
+  overflow-y: auto; /* Scroll indépendant pour la sidebar */
+  overflow-x: hidden;
+  flex-shrink: 0;
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 3px;
+}
+
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-secondary);
+}
+
+.content-area {
+  flex: 1;
+  background: var(--bg-primary);
+  height: 100%;
+  overflow-y: auto; /* Scroll indépendant pour le contenu */
+  overflow-x: hidden;
+  /* Smooth scrolling */
+  scroll-behavior: smooth;
+  /* Custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-color) transparent;
+}
+
+.content-area::-webkit-scrollbar {
+  width: 6px;
+}
+
+.content-area::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.content-area::-webkit-scrollbar-thumb {
+  background-color: var(--border-color);
+  border-radius: 3px;
+}
+
+.content-area::-webkit-scrollbar-thumb:hover {
+  background-color: var(--text-secondary);
+}
+
+.priority-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.priority-high {
+  background-color: #fef2f2;
+  color: var(--danger-color);
+}
+
+.priority-medium {
+  background-color: #fffbeb;
+  color: var(--warning-color);
+}
+
+.priority-low {
+  background-color: #f0fdf4;
+  color: var(--success-color);
+}
+
+[data-theme="dark"] .priority-high {
+  background-color: rgba(244, 67, 54, 0.2);
+}
+
+[data-theme="dark"] .priority-medium {
+  background-color: rgba(255, 152, 0, 0.2);
+}
+
+[data-theme="dark"] .priority-low {
+  background-color: rgba(76, 175, 80, 0.2);
+}
+
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-todo {
+  background-color: #f3f4f6;
+  color: #6b7280;
+}
+
+.status-inprogress {
+  background-color: #dbeafe;
+  color: var(--primary-color);
+}
+
+.status-done {
+  background-color: #dcfce7;
+  color: var(--success-color);
+}
+
+[data-theme="dark"] .status-todo {
+  background-color: rgba(107, 114, 128, 0.2);
+  color: #9ca3af;
+}
+
+[data-theme="dark"] .status-inprogress {
+  background-color: rgba(79, 195, 247, 0.2);
+}
+
+[data-theme="dark"] .status-done {
+  background-color: rgba(76, 175, 80, 0.2);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text-secondary);
+}
+
+.empty-state h3 {
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.kanban-board {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  height: 600px;
+}
+
+.kanban-column {
+  background: var(--bg-secondary);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.kanban-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.kanban-title {
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.task-count {
+  background: var(--primary-color);
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.kanban-tasks {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.task-card {
+  background: var(--bg-primary);
+  border-radius: var(--border-radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  cursor: grab;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: slideIn 0.3s ease-out;
+  border: 1px solid transparent;
+}
+
+.task-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-color);
+}
+
+.task-card:active {
+  transform: translateY(-2px) scale(0.98);
+}
+
+.task-card.priority-high {
+  border-left: 4px solid var(--danger-color);
+}
+
+.task-card.priority-medium {
+  border-left: 4px solid var(--warning-color);
+}
+
+.task-card.priority-low {
+  border-left: 4px solid var(--success-color);
+}
+
+.task-card.dragging {
+  cursor: grabbing;
+  opacity: 0.8;
+}
+
+.task-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.task-description {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.4;
+}
+
+.task-meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+.celebration-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* Dark mode for Kendo components */
+[data-theme="dark"] .k-grid,
+[data-theme="dark"] .k-grid-header,
+[data-theme="dark"] .k-grid-content,
+[data-theme="dark"] .k-listbox {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Grid row separations */
+.k-grid tbody tr {
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.k-grid tbody tr:hover {
+  background-color: var(--bg-secondary) !important;
+  transition: background-color 0.2s ease;
+}
+
+.k-grid tbody tr:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+[data-theme="dark"] .k-grid tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+[data-theme="dark"] .k-grid-header th,
+[data-theme="dark"] .k-grid td {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-listbox-item {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-listbox-item:hover {
+  background-color: var(--bg-secondary) !important;
+}
+
+[data-theme="dark"] .k-pager {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-input,
+[data-theme="dark"] .k-textbox,
+[data-theme="dark"] .k-dropdown {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Dark mode for Dialog/Modal */
+[data-theme="dark"] .k-dialog,
+[data-theme="dark"] .k-window {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-dialog-titlebar,
+[data-theme="dark"] .k-window-titlebar {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-dialog-content,
+[data-theme="dark"] .k-window-content {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .k-dialog-actions,
+[data-theme="dark"] .k-actions {
+  background-color: var(--bg-secondary) !important;
+  border-top: 1px solid var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-textarea {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-dropdown-wrap,
+[data-theme="dark"] .k-picker-wrap {
+  background-color: var(--bg-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-dropdown-wrap .k-input,
+[data-theme="dark"] .k-picker-wrap .k-input {
+  background-color: transparent !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .k-popup,
+[data-theme="dark"] .k-list-container {
+  background-color: var(--bg-primary) !important;
+  border-color: var(--border-color) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-theme="dark"] .k-list-item {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .k-list-item:hover,
+[data-theme="dark"] .k-list-item.k-selected {
+  background-color: var(--bg-secondary) !important;
+}
+
+[data-theme="dark"] .k-calendar {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-calendar-header {
+  background-color: var(--bg-secondary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-calendar td {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .k-calendar .k-selected {
+  background-color: var(--primary-color) !important;
+  color: white !important;
+}
+
+/* Amélioration spécifique pour les dropdowns et calendriers */
+[data-theme="dark"] .k-dropdown .k-dropdown-wrap {
+  background-color: var(--bg-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-dropdown .k-dropdown-wrap:hover {
+  border-color: var(--primary-color) !important;
+}
+
+[data-theme="dark"] .k-dropdown .k-dropdown-wrap.k-state-focused {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.2) !important;
+}
+
+[data-theme="dark"] .k-datepicker .k-picker-wrap {
+  background-color: var(--bg-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-datepicker .k-picker-wrap:hover {
+  border-color: var(--primary-color) !important;
+}
+
+[data-theme="dark"] .k-datepicker .k-picker-wrap.k-state-focused {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.2) !important;
+}
+
+[data-theme="dark"] .k-calendar-view {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .k-calendar-view .k-link {
+  color: var(--text-primary) !important;
+}
+
+[data-theme="dark"] .k-calendar-view .k-link:hover {
+  background-color: var(--bg-secondary) !important;
+}
+
+[data-theme="dark"] .k-calendar-view .k-today {
+  background-color: rgba(79, 195, 247, 0.1) !important;
+  color: var(--primary-color) !important;
+}
+
+[data-theme="dark"] .k-animation-container {
+  background-color: var(--bg-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+/* Correction pour les inputs dans le dark mode */
+[data-theme="dark"] .k-textbox,
+[data-theme="dark"] .k-input {
+  background-color: var(--bg-primary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-color) !important;
+}
+
+[data-theme="dark"] .k-textbox:hover,
+[data-theme="dark"] .k-input:hover {
+  border-color: var(--primary-color) !important;
+}
+
+[data-theme="dark"] .k-textbox:focus,
+[data-theme="dark"] .k-input:focus {
+  border-color: var(--primary-color) !important;
+  box-shadow: 0 0 0 2px rgba(79, 195, 247, 0.2) !important;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: block !important;
+  }
+  
+  .main-content {
+    position: relative;
+  }
+  
+  .sidebar {
+    position: fixed;
+    top: 60px;
+    left: -280px;
+    width: 280px;
+    height: calc(100vh - 60px);
+    z-index: 1000;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+  }
+  
+  .sidebar.mobile-open {
+    left: 0;
+  }
+  
+  .content-area {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .kanban-board {
+    grid-template-columns: 1fr;
+    height: auto;
+  }
+  
+  .kanban-column {
+    height: 300px;
+  }
+}
