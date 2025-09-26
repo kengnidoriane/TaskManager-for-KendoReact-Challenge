@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { Grid, GridColumn } from '@progress/kendo-react-grid';
 import { Button } from '@progress/kendo-react-buttons';
-import { Tooltip } from '@progress/kendo-react-tooltip';
 import { Input } from '@progress/kendo-react-inputs';
-import { PriorityBadge, StatusBadge } from './TaskBadges';
 import { format } from 'date-fns';
 import { enUS } from 'date-fns/locale';
-import { Edit, Trash2, Calendar, Search, Filter, Info } from 'lucide-react';
+import { Edit, Trash2, Calendar, Search, Filter } from 'lucide-react';
 
 interface Task {
   id: string;
@@ -68,101 +65,7 @@ export const GridView: React.FC<GridViewProps> = ({
       status: task.status === 'Done' ? 'Todo' : 'Done'
     });
   };
-  const PriorityCell = (props: any) => (
-    <td style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'center', padding: '1rem 0.5rem' }}>
-      <PriorityBadge priority={props.dataItem.priority} />
-    </td>
-  );
 
-  const StatusCell = (props: any) => (
-    <td style={{ borderBottom: '1px solid var(--border-color)', textAlign: 'center', padding: '1rem 0.5rem' }}>
-      <StatusBadge status={props.dataItem.status} />
-    </td>
-  );
-
-  const DeadlineCell = (props: any) => {
-    const isOverdue = new Date(props.dataItem.deadline) < new Date() && props.dataItem.status !== 'Done';
-    return (
-      <td style={{ borderBottom: '1px solid var(--border-color)', padding: '1rem 0.5rem' }}>
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '0.5rem',
-          color: isOverdue ? 'var(--danger-color)' : 'var(--text-primary)',
-          justifyContent: 'center'
-        }}>
-          <Calendar size={14} />
-          <span style={{ fontSize: '0.875rem', fontWeight: isOverdue ? '600' : '400' }}>
-            {format(props.dataItem.deadline, 'MMM dd, yyyy', { locale: enUS })}
-          </span>
-          {isOverdue && <span style={{ fontSize: '0.75rem' }}>⚠️</span>}
-        </div>
-      </td>
-    );
-  };
-
-  const ActionsCell = (props: any) => (
-    <td style={{ borderBottom: '1px solid var(--border-color)', padding: '1rem 0.5rem' }}>
-      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
-        <Tooltip anchorElement="target" position="top">
-          <Button
-            size="small"
-            fillMode="flat"
-            themeColor="primary"
-            title="Edit this task"
-            onClick={() => onEditTask(props.dataItem)}
-            style={{ minWidth: '36px', height: '36px', borderRadius: '6px' }}
-          >
-            <Edit size={16} />
-          </Button>
-        </Tooltip>
-        <Tooltip anchorElement="target" position="top">
-          <Button
-            size="small"
-            fillMode="flat"
-            themeColor="error"
-            title="Delete this task"
-            onClick={() => onDeleteTask(props.dataItem.id)}
-            style={{ minWidth: '36px', height: '36px', borderRadius: '6px' }}
-          >
-            <Trash2 size={16} />
-          </Button>
-        </Tooltip>
-      </div>
-    </td>
-  );
-
-  const TitleCell = (props: any) => (
-    <td style={{ borderBottom: '1px solid var(--border-color)' }}>
-      <div style={{ 
-        padding: '1rem 0.5rem',
-        borderLeft: '4px solid var(--primary-color)',
-        paddingLeft: '1rem',
-        margin: '0.5rem 0'
-      }}>
-        <div style={{ 
-          fontWeight: '600', 
-          marginBottom: '0.5rem',
-          color: 'var(--text-primary)',
-          fontSize: '1rem'
-        }}>
-          📋 {props.dataItem.title}
-        </div>
-        <div style={{ 
-          fontSize: '0.85rem', 
-          color: 'var(--text-secondary)',
-          lineHeight: '1.4',
-          maxWidth: '280px',
-          overflow: 'hidden',
-          display: '-webkit-box',
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: 'vertical'
-        }}>
-          {props.dataItem.description}
-        </div>
-      </div>
-    </td>
-  );
 
   if (tasks.length === 0) {
     return (

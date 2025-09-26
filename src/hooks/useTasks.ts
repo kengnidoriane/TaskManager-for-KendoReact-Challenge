@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { loadTasks, saveTasks, generateId } from '../utils/storage';
-import { Task, TaskFormData, ProgressStats, Status } from '../types';
+import type { Task, TaskFormData, ProgressStats } from '../types';
 
 export const useTasks = () => {
   const [tasks, setTasks] = useState<Task[]>([]);

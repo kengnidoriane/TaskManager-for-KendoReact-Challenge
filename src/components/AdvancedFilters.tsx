@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button } from '@progress/kendo-react-buttons';
-import { DropDownList, MultiSelect } from '@progress/kendo-react-dropdowns';
+import { MultiSelect } from '@progress/kendo-react-dropdowns';
 import { DateRangePicker } from '@progress/kendo-react-dateinputs';
 import { Popup } from '@progress/kendo-react-popup';
 import { Filter, X, Calendar, Tag, AlertCircle } from 'lucide-react';
@@ -29,7 +29,7 @@ export const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
     overdue: false
   });
 
-  const anchor = React.useRef<HTMLButtonElement>(null);
+  const anchor = React.useRef<any>(null);
 
   const priorityOptions = [
     { text: '🔴 High Priority', value: 'High' },
@@ -191,13 +191,9 @@ export const AdvancedFilters: React.FC<AdvancedFiltersProps> = ({
                 Date Range
               </label>
               <DateRangePicker
-                startDateInput={{
-                  placeholder: 'Start date',
-                  value: filters.dateRange.start
-                }}
-                endDateInput={{
-                  placeholder: 'End date',
-                  value: filters.dateRange.end
+                value={{
+                  start: filters.dateRange.start,
+                  end: filters.dateRange.end
                 }}
                 onChange={(e) => handleFilterChange('dateRange', {
                   start: e.value.start,
